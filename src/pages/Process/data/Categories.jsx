@@ -1,0 +1,147 @@
+import {
+  FilterIcon,
+  MapIcon,
+  ListIcon,
+  NavigationIcon,
+  PackageIcon,
+  SparklesIcon,
+  WrenchIcon,
+  TruckIcon,
+  TreesIcon,
+  MoreHorizontalIcon,
+  BabyIcon,
+  DogIcon,
+  GraduationCapIcon,
+  CameraIcon,
+  CodeIcon,
+  LanguagesIcon,
+  ChefHatIcon,
+  ScissorsIcon,
+  DumbbellIcon,
+  CarIcon,
+  HammerIcon,
+  ZapIcon,
+  DropletIcon,
+  ShoppingCartIcon,
+  CalculatorIcon,
+  PartyPopperIcon,
+  SearchIcon,
+} from "lucide-react";
+const categories = [
+  {
+    name: "Всі",
+    icon: <MoreHorizontalIcon className="w-4 h-4" />,
+    color: "bg-gray-100 text-gray-700",
+  },
+  {
+    name: "Доставка",
+    icon: <PackageIcon className="w-4 h-4" />,
+    color: "bg-blue-100 text-blue-700",
+  },
+  {
+    name: "Прибирання",
+    icon: <SparklesIcon className="w-4 h-4" />,
+    color: "bg-green-100 text-green-700",
+  },
+  {
+    name: "Ремонт",
+    icon: <WrenchIcon className="w-4 h-4" />,
+    color: "bg-orange-100 text-orange-700",
+  },
+  {
+    name: "Переїзд",
+    icon: <TruckIcon className="w-4 h-4" />,
+    color: "bg-purple-100 text-purple-700",
+  },
+  {
+    name: "Садівництво",
+    icon: <TreesIcon className="w-4 h-4" />,
+    color: "bg-emerald-100 text-emerald-700",
+  },
+  {
+    name: "Догляд за дітьми",
+    icon: <BabyIcon className="w-4 h-4" />,
+    color: "bg-pink-100 text-pink-700",
+  },
+  {
+    name: "Догляд за тваринами",
+    icon: <DogIcon className="w-4 h-4" />,
+    color: "bg-amber-100 text-amber-700",
+  },
+  {
+    name: "Репетиторство",
+    icon: <GraduationCapIcon className="w-4 h-4" />,
+    color: "bg-indigo-100 text-indigo-700",
+  },
+  {
+    name: "Фото/Відео",
+    icon: <CameraIcon className="w-4 h-4" />,
+    color: "bg-violet-100 text-violet-700",
+  },
+  {
+    name: "IT послуги",
+    icon: <CodeIcon className="w-4 h-4" />,
+    color: "bg-cyan-100 text-cyan-700",
+  },
+  {
+    name: "Переклад",
+    icon: <LanguagesIcon className="w-4 h-4" />,
+    color: "bg-teal-100 text-teal-700",
+  },
+  {
+    name: "Готування",
+    icon: <ChefHatIcon className="w-4 h-4" />,
+    color: "bg-red-100 text-red-700",
+  },
+  {
+    name: "Краса",
+    icon: <ScissorsIcon className="w-4 h-4" />,
+    color: "bg-fuchsia-100 text-fuchsia-700",
+  },
+  {
+    name: "Фітнес",
+    icon: <DumbbellIcon className="w-4 h-4" />,
+    color: "bg-lime-100 text-lime-700",
+  },
+  {
+    name: "Авто послуги",
+    icon: <CarIcon className="w-4 h-4" />,
+    color: "bg-slate-100 text-slate-700",
+  },
+  {
+    name: "Будівництво",
+    icon: <HammerIcon className="w-4 h-4" />,
+    color: "bg-stone-100 text-stone-700",
+  },
+  {
+    name: "Електрика",
+    icon: <ZapIcon className="w-4 h-4" />,
+    color: "bg-yellow-100 text-yellow-700",
+  },
+  {
+    name: "Сантехніка",
+    icon: <DropletIcon className="w-4 h-4" />,
+    color: "bg-sky-100 text-sky-700",
+  },
+  {
+    name: "Покупки",
+    icon: <ShoppingCartIcon className="w-4 h-4" />,
+    color: "bg-rose-100 text-rose-700",
+  },
+  {
+    name: "Бухгалтерія",
+    icon: <CalculatorIcon className="w-4 h-4" />,
+    color: "bg-neutral-100 text-neutral-700",
+  },
+  {
+    name: "Організація заходів",
+    icon: <PartyPopperIcon className="w-4 h-4" />,
+    color: "bg-orange-100 text-orange-700",
+  },
+  {
+    name: "Інше",
+    icon: <MoreHorizontalIcon className="w-4 h-4" />,
+    color: "bg-gray-100 text-gray-700",
+  },
+];
+export default categories;
