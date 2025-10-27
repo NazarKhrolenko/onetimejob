@@ -7,26 +7,26 @@ import { FaRegBell } from "react-icons/fa6";
 const HeaderLoged = () => {
   return (
     <header>
-      <div className="pt-4 flex justify-between items-center container mx-auto">
+      <div className="pt-2 flex justify-between items-center container mx-auto">
         <div className="">
-          <Link className="text-3xl" to="/">
+          <Link className="text-2xl" to="/">
             OneTimeGob
           </Link>
         </div>
         <div className="flex gap-16 items-center">
           <div className="flex gap-4">
             <Link to="/liked">
-              <FaRegHeart size={25} />
+              <FaRegHeart size={20} />
             </Link>
             <Link>
-              <FaRegBell size={25} />
+              <FaRegBell size={20} />
             </Link>
             <Link to="/process/profile">
-              <MdAccountCircle size={25} />
+              <MdAccountCircle size={20} />
             </Link>
           </div>
           <div>
-            <button className="whitespace-nowrap text-xl bg-blue-400 px-4 py-2 rounded-xl">
+            <button className="whitespace-nowrap text-lg bg-blue-400 px-2 py-1 rounded-xl">
               Add application
             </button>
           </div>

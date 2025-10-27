@@ -8,7 +8,7 @@ import {
 
 const Filters = () => {
   return (
-    <div className="mt-8 bg-blue-500 rounded-lg p-4">
+    <div className="mt-2 bg-blue-500 rounded-lg p-2">
       <div className="flex justify-between items-center">
         <div className="flex gap-8 items-center justify-around">
           <div className="flex gap-1">
