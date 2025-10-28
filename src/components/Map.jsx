@@ -6,9 +6,11 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import { HiArrowsUpDown } from "react-icons/hi2";
 import { FaStar } from "react-icons/fa";
 import { CiClock2 } from "react-icons/ci";
+import categories from "../pages/Process/data/Categories";
+import { MdDateRange } from "react-icons/md";
+import { GoPeople } from "react-icons/go";
 
 const Map = ({ jobs }) => {
-  console.log(jobs);
   const markers = [
     {
       geocode: [48.86, 2.3522],
@@ -49,7 +51,7 @@ const Map = ({ jobs }) => {
     const date = new Date(dateString);
     const now = new Date();
 
-    const diffInMs = date.getTime() - now.getTime();
+    const diffInMs = now.getTime() - date.getTime();
     const diffMinutes = Math.floor(diffInMs / (1000 * 60));
     const diffHours = Math.floor(diffMinutes / 60);
     const diffDays = Math.floor(diffHours / 24);
@@ -59,6 +61,12 @@ const Map = ({ jobs }) => {
     if (diffHours < 24) return `${diffHours} hours ago`;
     if (diffDays === 1) return `yesterday`;
     if (diffDays > 1) return `${diffDays} days ago`;
+  };
+  const getCategoryColor = (job) => {
+    const categoryColor = categories.find(
+      (category) => category.name === job.category
+    );
+    return categoryColor?.color;
   };
   return (
     <div className="w-full h-full flex flex-1">
@@ -86,7 +94,7 @@ const Map = ({ jobs }) => {
           ))}
         </MarkerClusterGroup>
       </MapContainer>
-      <div className=" p-2 mx-auto overflow-y-auto">
+      <div className="h-[70vh] p-2 mx-auto overflow-y-auto">
         <div>
           <div className="flex justify-between">
             <div className="">
@@ -104,29 +112,63 @@ const Map = ({ jobs }) => {
               </select>
             </div>
           </div>
-          <div>
+          <div className="">
             {jobs.map((job) => (
-              <div className="border border-blue-300" key={job.id}>
-                <div className="flex justify-between">
-                  <h3>{job.title}</h3>
-                  <div className="">
-                    <div>
-                      {job.price}
-                      <span>$</span>
+              <div
+                className="border border-blue-300 p-4 flex flex-col justify-between gap-4 "
+                key={job.id}
+              >
+                <div>
+                  <div className="flex justify-between">
+                    <h3>{job.title}</h3>
+                    <div className="">
+                      <div>
+                        {job.price}
+                        <span>$</span>
+                      </div>
+                      <div className="flex items-center">
+                        <FaStar /> {job.user_rating}
+                      </div>
                     </div>
-                    <div className="flex items-center">
-                      <FaStar /> {job.user_rating}
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-2">
+                      <span
+                        className={`${getCategoryColor(
+                          job
+                        )} px-2 py-1 rounded-xl`}
+                      >
+                        {job.category}
+                      </span>
+                      {job.created_at && (
+                        <span className="flex items-center  gap-1">
+                          <CiClock2 />
+                          {GetTimeAgo(job.created_at)}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <MdDateRange />
+                      {new Date(job.date).toLocaleDateString("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                      })}
                     </div>
                   </div>
                 </div>
                 <div>
-                  <span>{job.category}</span>
-                  {job.created_at && (
-                    <span>
-                      <CiClock2 />
-                      {GetTimeAgo(job.created_at)}
-                    </span>
-                  )}
+                  <p>{job.description}</p>
+                </div>
+                <div className="flex justify-between">
+                  <div className="flex gap-1 items-center">
+                    <GoPeople />
+                    <span>{job.applicants} applied</span>
+                  </div>
+                  <div>
+                    <button className="px-3 py-1.5 bg-blue-400 rounded-xl">
+                      Apply
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}

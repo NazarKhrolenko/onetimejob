@@ -3,7 +3,7 @@ import { MdSearch } from "react-icons/md";
 import categories from "./data/Categories";
 import { useState } from "react";
 
-const CategoriesFilter = () => {
+const CategoriesFilter = ({ handleSelectCategory }) => {
   const [categorySearch, setCategorySearch] = useState("");
   const [showAllCategories, setShowAllCategories] = useState(false);
 
@@ -34,6 +34,7 @@ const CategoriesFilter = () => {
             <button
               key={category.name}
               className={`flex ${category.color} px-2 py-1 rounded-lg items-center gap-1 cursor-pointer text-md`}
+              onClick={() => handleSelectCategory(category.name)}
             >
               {category.icon}
               {category.name}

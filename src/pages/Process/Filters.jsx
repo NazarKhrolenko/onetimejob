@@ -5,8 +5,9 @@ import {
   MapPinIcon,
   CalendarIcon,
 } from "lucide-react";
+import { data } from "react-router-dom";
 
-const Filters = () => {
+const Filters = ({ filters, handleSetFilters }) => {
   return (
     <div className="mt-2 bg-blue-500 rounded-lg p-2">
       <div className="flex justify-between items-center">
@@ -19,6 +20,10 @@ const Filters = () => {
             <DollarSignIcon />
             <label>Min salary:</label>
             <input
+              value={filters.minPrice}
+              onChange={(e) =>
+                handleSetFilters({ ...filters, minPrice: e.target.value })
+              }
               className="text-black bg-white rounded-lg w-24 px-3 py-1"
               type="number"
               min="0"
@@ -32,6 +37,10 @@ const Filters = () => {
             <DollarSignIcon />
             <label>Maks salary:</label>
             <input
+              value={filters.maxPrice}
+              onChange={(e) =>
+                handleSetFilters({ ...filters, maxPrice: e.target.value })
+              }
               className="text-black bg-white rounded-lg w-24 px-3 py-1"
               type="number"
               min="10000"
@@ -43,6 +52,10 @@ const Filters = () => {
             <MapPinIcon />
             <label>Distance:</label>
             <input
+              value={filters.radius}
+              onChange={(e) =>
+                handleSetFilters({ ...filters, radius: e.target.value })
+              }
               className="bg-white text-black rounded-lg w-24 px-3 py-1"
               type="number"
               min="0"
@@ -54,6 +67,10 @@ const Filters = () => {
             <CalendarIcon />
             <label>Distance:</label>
             <input
+              value={filters.date}
+              onChange={(e) =>
+                handleSetFilters({ ...filters, date: e.target.value })
+              }
               className="bg-white text-black rounded-lg w-24 px-3 py-1"
               type="date"
               name=""
