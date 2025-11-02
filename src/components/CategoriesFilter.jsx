@@ -1,6 +1,6 @@
 import React from "react";
 import { MdSearch } from "react-icons/md";
-import categories from "./data/Categories";
+import categories from "../pages/Process/data/Categories";
 import { useState } from "react";
 
 const CategoriesFilter = ({ handleSelectCategory }) => {
@@ -33,7 +33,11 @@ const CategoriesFilter = ({ handleSelectCategory }) => {
           {visibleCategories.map((category) => (
             <button
               key={category.name}
-              className={`flex ${category.color} px-2 py-1 rounded-lg items-center gap-1 cursor-pointer text-md`}
+              style={{
+                backgroundColor: category.bgColor,
+                color: category.textColor,
+              }}
+              className={`flex px-2 py-1 rounded-lg items-center gap-1 cursor-pointer text-md`}
               onClick={() => handleSelectCategory(category.name)}
             >
               {category.icon}

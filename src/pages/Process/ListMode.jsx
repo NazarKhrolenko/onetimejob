@@ -1,18 +1,19 @@
 import React from "react";
-import HeaderProces from "../../components/HeaderProcess";
+import HeaderProces from "../../components/Headers/HeaderProcess";
 
 import { useState, useEffect } from "react";
 import { CiMap, CiCircleList } from "react-icons/ci";
-import Filters from "./Filters";
-import HeaderLoged from "../../components/HeaderLoged";
+import Filters from "../../components/Filters";
+import HeaderLoged from "../../components/Headers/HeaderLoged";
 import Map from "../../components/map";
-import CategoriesFilter from "./CategoriesFilter";
+import CategoriesFilter from "../../components/CategoriesFilter";
 import sampleJobs from "./data/SampleJobs";
 
 const ListMode = () => {
   const [viewMode, setViewMode] = useState("map");
   const [jobs, setJobs] = useState([]);
-  const [filteredJobs, setFilteredJobs] = useState();
+  const [filteredJobs, setFilteredJobs] = useState([]);
+
   const [filters, setFilters] = useState({
     category: "",
     minPrice: 0,
@@ -51,7 +52,6 @@ const ListMode = () => {
     );
 
     setFilteredJobs(filteredJobs);
-    console.log({ filteredJobs });
   };
 
   return (

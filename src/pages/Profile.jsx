@@ -4,7 +4,7 @@ import { FaStar } from "react-icons/fa";
 import { IoTrophySharp } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
 import { useState } from "react";
-import HeaderLoged from "../components/HeaderLoged";
+import HeaderLoged from "../components/Headers/HeaderLoged";
 
 const Profile = () => {
   const [myJobs, setMyJobs] = useState([]);

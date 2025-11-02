@@ -1,6 +1,7 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, Tooltip } from "react-leaflet";
 import { Icon, divIcon, point } from "leaflet";
 import React from "react";
+import { Link } from "react-router-dom";
 import "leaflet/dist/leaflet.css";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { HiArrowsUpDown } from "react-icons/hi2";
@@ -9,22 +10,14 @@ import { CiClock2 } from "react-icons/ci";
 import categories from "../pages/Process/data/Categories";
 import { MdDateRange } from "react-icons/md";
 import { GoPeople } from "react-icons/go";
+import { useState } from "react";
+import CustomIcon from "../pages/Process/data/CustomIcon";
+import ReactDOMServer from "react-dom/server";
+import L from "leaflet";
+const Map = ({ OnHover, jobs }) => {
+  console.log(jobs);
+  const [highlightedIcon, setHighlightedIcon] = useState(null);
 
-const Map = ({ jobs }) => {
-  const markers = [
-    {
-      geocode: [48.86, 2.3522],
-      popup: "Hello, I am pop up 1",
-    },
-    {
-      geocode: [48.85, 2.3522],
-      popup: "Hello, I am pop up 2",
-    },
-    {
-      geocode: [48.855, 2.34],
-      popup: "Hello, I am pop up 3",
-    },
-  ];
   const custonIcon = new Icon({
     iconUrl: "./location.png",
     iconSize: [38, 38],
@@ -66,12 +59,13 @@ const Map = ({ jobs }) => {
     const categoryColor = categories.find(
       (category) => category.name === job.category
     );
-    return categoryColor?.color;
+    return categoryColor?.bgColor;
   };
+
   return (
     <div className="w-full h-full flex flex-1">
       <MapContainer
-        center={[48.864716, 2.349014]}
+        center={[50.450001, 30.523333]}
         zoom={11}
         className="h-[70vh] w-[75%]"
       >
@@ -83,20 +77,52 @@ const Map = ({ jobs }) => {
           chunkedLoading
           iconCreateFunction={createCustomClusterIcon}
         >
-          {markers.map((marker) => (
+          {jobs.map((job) => (
             <Marker
-              key={marker.geocode}
-              position={marker.geocode}
-              icon={custonIcon}
+              key={job.id}
+              position={[job.lat, job.lng]}
+              icon={L.divIcon({
+                html: ReactDOMServer.renderToString(
+                  <CustomIcon categoryMark={job.category} price={job.price} />
+                ),
+                className: "",
+                iconSize: [60, 40], // можна підлаштувати
+                iconAnchor: [30, 20], // щоб трикутник був у точці позиції
+              })}
+              opacity={
+                highlightedIcon === job.id ? 1 : highlightedIcon ? 0.5 : 1
+              }
             >
-              <Popup>{marker.popup}</Popup>
+              <Tooltip direction="top" offset={[0, -10]}>
+                {job.title}
+              </Tooltip>
+              <Popup>
+                <div className="h-full w-full ">
+                  <header>
+                    <h3 className="text-center text-xl pb-2">{job.title}</h3>
+                    <div className="flex gap-1">
+                      <FaStar /> {job.user_rating}{" "}
+                      <span className="text-xs">(owner's rating)</span>
+                    </div>
+                  </header>
+                  <p>{job.description.substring(0, 100)}</p>
+                  <p>{job.category}</p>
+                  <p>{job.price}$</p>
+                  <p>{job.applicants} applied</p>
+                  <Link to={`/process/job/${job.id}`}>
+                    <button className="bg-blue-400 text-white w-full font-semibold text-xl px-3 py-2 rounded-xl cursor-pointer">
+                      More details
+                    </button>
+                  </Link>
+                </div>
+              </Popup>
             </Marker>
           ))}
         </MarkerClusterGroup>
       </MapContainer>
       <div className="h-[70vh] p-2 mx-auto overflow-y-auto">
         <div>
-          <div className="flex justify-between">
+          <div className="flex justify-between pb-5">
             <div className="">
               <h2 className="text-lg">Found Results</h2>
               <p className="text-sm mt-1">Choose a suitable task and respond</p>
@@ -112,65 +138,69 @@ const Map = ({ jobs }) => {
               </select>
             </div>
           </div>
-          <div className="">
+          <div className="flex flex-col gap-3">
             {jobs.map((job) => (
-              <div
-                className="border border-blue-300 p-4 flex flex-col justify-between gap-4 "
-                key={job.id}
-              >
-                <div>
-                  <div className="flex justify-between">
-                    <h3>{job.title}</h3>
-                    <div className="">
-                      <div>
-                        {job.price}
-                        <span>$</span>
-                      </div>
-                      <div className="flex items-center">
-                        <FaStar /> {job.user_rating}
+              <Link to={`/process/job/${job.id}`} key={job.id}>
+                <div
+                  className="border border-blue-300 p-4 flex flex-col justify-between gap-4 rounded-2xl hover:shadow-2xl hover:border-blue-500 transition-all cursor-pointer"
+                  onMouseEnter={() => setHighlightedIcon(job.id)}
+                  onMouseLeave={() => setHighlightedIcon(null)}
+                >
+                  <div>
+                    <div className="flex justify-between">
+                      <h3>{job.title}</h3>
+                      <div className="">
+                        <div>
+                          {job.price}
+                          <span>$</span>
+                        </div>
+                        <div className="flex items-center">
+                          <FaStar /> {job.user_rating}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <div className="flex gap-2">
-                      <span
-                        className={`${getCategoryColor(
-                          job
-                        )} px-2 py-1 rounded-xl`}
-                      >
-                        {job.category}
-                      </span>
-                      {job.created_at && (
-                        <span className="flex items-center  gap-1">
-                          <CiClock2 />
-                          {GetTimeAgo(job.created_at)}
+                    <div className="flex flex-col gap-2">
+                      <div className="flex gap-2">
+                        <span
+                          style={{
+                            backgroundColor: getCategoryColor(job.category),
+                          }}
+                          className={` px-2 py-1 rounded-xl`}
+                        >
+                          {job.category}
                         </span>
-                      )}
+                        {job.created_at && (
+                          <span className="flex items-center  gap-1">
+                            <CiClock2 />
+                            {GetTimeAgo(job.created_at)}
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <MdDateRange />
+                        {new Date(job.date).toLocaleDateString("en-GB", {
+                          day: "numeric",
+                          month: "short",
+                        })}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <MdDateRange />
-                      {new Date(job.date).toLocaleDateString("en-GB", {
-                        day: "numeric",
-                        month: "short",
-                      })}
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <p>{job.description}</p>
-                </div>
-                <div className="flex justify-between">
-                  <div className="flex gap-1 items-center">
-                    <GoPeople />
-                    <span>{job.applicants} applied</span>
                   </div>
                   <div>
-                    <button className="px-3 py-1.5 bg-blue-400 rounded-xl">
-                      Apply
-                    </button>
+                    <p>{job.description}</p>
+                  </div>
+                  <div className="flex justify-between">
+                    <div className="flex gap-1 items-center">
+                      <GoPeople />
+                      <span>{job.applicants} applied</span>
+                    </div>
+                    <div>
+                      <button className="px-3 py-1.5 bg-blue-400 rounded-xl">
+                        Apply
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

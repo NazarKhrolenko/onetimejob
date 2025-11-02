@@ -19,15 +19,7 @@ const HeaderHomePage = () => {
             <Link>Pricing</Link>
           </nav>
         </div>
-        {/* <div className="flex">
-            <Link to="/liked">
-              <FaRegHeart />
-            </Link>
-
-            <Link to="/account">
-              <MdAccountCircle />
-            </Link>
-          </div> */}
+        {/* */}
         <div>
           <div className="flex gap-5">
             <button>Log in</button>

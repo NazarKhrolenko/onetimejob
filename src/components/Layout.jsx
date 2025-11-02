@@ -1,5 +1,5 @@
 import React from "react";
-import HeaderHome from "./HeaderHomePage";
+import HeaderHome from "./Headers/HeaderHomePage";
 import { Outlet } from "react-router-dom";
 
 const Layout = () => {
