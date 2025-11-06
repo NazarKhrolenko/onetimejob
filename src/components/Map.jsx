@@ -18,10 +18,6 @@ const Map = ({ OnHover, jobs }) => {
   console.log(jobs);
   const [highlightedIcon, setHighlightedIcon] = useState(null);
 
-  const custonIcon = new Icon({
-    iconUrl: "./location.png",
-    iconSize: [38, 38],
-  });
   const createCustomClusterIcon = (cluster) => {
     return new divIcon({
       html: `<div style="
@@ -76,6 +72,7 @@ const Map = ({ OnHover, jobs }) => {
         <MarkerClusterGroup
           chunkedLoading
           iconCreateFunction={createCustomClusterIcon}
+          maxClusterRadius={50}
         >
           {jobs.map((job) => (
             <Marker

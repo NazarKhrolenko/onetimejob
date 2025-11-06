@@ -30,7 +30,7 @@ const CustomIcon = ({ categoryMark, price }) => {
           boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
         }}
       >
-        {price} грн
+        {price} $
       </div>
 
       <div
