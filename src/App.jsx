@@ -7,7 +7,7 @@ import {
 import "./App.css";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
-import ListMode from "./pages/Process/ListMode";
+import ModePage from "./pages/Process/ModePage";
 import Profile from "./pages/Profile";
 import JobDetailPage from "./pages/JobDetailPage";
 import LogIn from "./pages/LogIn";
@@ -17,17 +17,13 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<Home />} />
-      <Route path="/process" element={<ListMode />} />
+      <Route path="/process" element={<ModePage />} />
       <Route
         path="/process/profile"
         element={<Profile />}
         loader={async () => requireAuth()}
       />
-      <Route
-        path="/process/job/:id"
-        element={<JobDetailPage />}
-        loader={async () => requireAuth()}
-      />
+      <Route path="/process/job/:id" element={<JobDetailPage />} />
       <Route path="/login" element={<LogIn />} />
     </>
   )

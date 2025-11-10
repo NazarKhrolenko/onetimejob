@@ -14,6 +14,23 @@ import { useState } from "react";
 import CustomIcon from "../pages/Process/data/CustomIcon";
 import ReactDOMServer from "react-dom/server";
 import L from "leaflet";
+
+const GetTimeAgo = (dateString) => {
+  const date = new Date(dateString);
+  const now = new Date();
+
+  const diffInMs = now.getTime() - date.getTime();
+  const diffMinutes = Math.floor(diffInMs / (1000 * 60));
+  const diffHours = Math.floor(diffMinutes / 60);
+  const diffDays = Math.floor(diffHours / 24);
+
+  if (diffMinutes < 1) return "Just now";
+  if (diffMinutes < 60) return `${diffMinutes} minutes ago`;
+  if (diffHours < 24) return `${diffHours} hours ago`;
+  if (diffDays === 1) return `yesterday`;
+  if (diffDays > 1) return `${diffDays} days ago`;
+};
+
 const Map = ({ OnHover, jobs }) => {
   console.log(jobs);
   const [highlightedIcon, setHighlightedIcon] = useState(null);
@@ -36,21 +53,7 @@ const Map = ({ OnHover, jobs }) => {
     ">${cluster.getChildCount()}</div>`,
     });
   };
-  const GetTimeAgo = (dateString) => {
-    const date = new Date(dateString);
-    const now = new Date();
 
-    const diffInMs = now.getTime() - date.getTime();
-    const diffMinutes = Math.floor(diffInMs / (1000 * 60));
-    const diffHours = Math.floor(diffMinutes / 60);
-    const diffDays = Math.floor(diffHours / 24);
-
-    if (diffMinutes < 1) return "Just now";
-    if (diffMinutes < 60) return `${diffMinutes} minutes ago`;
-    if (diffHours < 24) return `${diffHours} hours ago`;
-    if (diffDays === 1) return `yesterday`;
-    if (diffDays > 1) return `${diffDays} days ago`;
-  };
   const getCategoryColor = (job) => {
     const categoryColor = categories.find(
       (category) => category.name === job.category
@@ -207,3 +210,4 @@ const Map = ({ OnHover, jobs }) => {
 };
 
 export default Map;
+export { GetTimeAgo };

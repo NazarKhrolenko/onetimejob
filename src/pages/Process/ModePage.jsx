@@ -8,8 +8,9 @@ import HeaderLoged from "../../components/Headers/HeaderLoged";
 import Map from "../../components/map";
 import CategoriesFilter from "../../components/CategoriesFilter";
 import sampleJobs from "./data/SampleJobs";
+import ListMode from "../../components/ListMode";
 
-const ListMode = () => {
+const ModePage = () => {
   const [viewMode, setViewMode] = useState("map");
   const [jobs, setJobs] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
@@ -80,11 +81,12 @@ const ListMode = () => {
             <span>List</span>
           </button>
         </div>
-        <Map jobs={filteredJobs} />
+        {viewMode === "map" ? <Map jobs={filteredJobs} /> : <ListMode />}
+
         <div className="pt-60"></div>
       </main>
     </div>
   );
 };
 
-export default ListMode;
+export default ModePage;
