@@ -1,19 +1,23 @@
-import React from "react";
-import HeaderProces from "../../components/Headers/HeaderProcess";
-
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { CiMap, CiCircleList } from "react-icons/ci";
+import { useLoaderData } from "react-router-dom";
 import Filters from "../../components/Filters";
 import HeaderLoged from "../../components/Headers/HeaderLoged";
 import Map from "../../components/map";
 import CategoriesFilter from "../../components/CategoriesFilter";
-import sampleJobs from "./data/SampleJobs";
 import ListMode from "../../components/ListMode";
+import { getJobs } from "../../api";
+import Error from "../../components/Error";
+
+export async function loader() {
+  return await getJobs();
+}
 
 const ModePage = () => {
   const [viewMode, setViewMode] = useState("map");
-  const [jobs, setJobs] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
+  const jobs = useLoaderData();
+  console.log(jobs);
 
   const [filters, setFilters] = useState({
     category: "",
@@ -22,66 +26,63 @@ const ModePage = () => {
     radius: 20,
     date: "",
   });
-  useEffect(() => {
-    fetchJobs();
-  }, []);
 
   useEffect(() => {
-    ApplyFilters();
+    applyFilters();
   }, [jobs, filters]);
-  const fetchJobs = () => {
-    setJobs(sampleJobs);
-  };
 
-  const handleCaterorySelect = (filteredCategory) => {
+  const handleCategorySelect = (category) => {
     setFilters({
       ...filters,
-      category: filteredCategory === "Всі" ? "" : filteredCategory,
+      category: category === "All" ? "" : category,
     });
   };
 
-  const ApplyFilters = () => {
-    let filteredJobs = [...jobs];
+  const applyFilters = () => {
+    let results = Array.isArray(jobs) ? [...jobs] : [];
     if (filters.category) {
-      filteredJobs = filteredJobs.filter(
-        (job) => job.category === filters.category
-      );
+      results = results.filter((job) => job.category === filters.category);
     }
-
-    filteredJobs = filteredJobs.filter(
+    results = results.filter(
       (job) => job.price > filters.minPrice && job.price < filters.maxPrice
     );
-
-    setFilteredJobs(filteredJobs);
+    setFilteredJobs(results);
   };
 
   return (
     <div className="bg-black h-full text-white">
       <HeaderLoged />
-      <main className=" mx-6">
-        <CategoriesFilter handleSelectCategory={handleCaterorySelect} />
+      <main className="mx-6">
+        <CategoriesFilter handleSelectCategory={handleCategorySelect} />
         <Filters filters={filters} handleSetFilters={setFilters} />
+
         <div className="flex gap-2 justify-center pb-2 pt-2">
           <button
             onClick={() => setViewMode("map")}
             className={`flex items-center px-2 py-1 rounded-lg text-3xl cursor-pointer ${
-              viewMode === "map" ? "bg-blue-400" : " bg-white text-black"
+              viewMode === "map" ? "bg-blue-400" : "bg-white text-black"
             }`}
           >
             <CiMap />
             <span>Map</span>
           </button>
+
           <button
             onClick={() => setViewMode("list")}
             className={`flex items-center px-2 py-1 rounded-lg text-3xl gap-1 cursor-pointer ${
-              viewMode === "map" ? "bg-white text-black" : "bg-blue-400 "
+              viewMode === "map" ? "bg-white text-black" : "bg-blue-400"
             }`}
           >
             <CiCircleList />
             <span>List</span>
           </button>
         </div>
-        {viewMode === "map" ? <Map jobs={filteredJobs} /> : <ListMode />}
+
+        {viewMode === "map" ? (
+          <Map jobs={filteredJobs} />
+        ) : (
+          <ListMode jobs={filteredJobs} />
+        )}
 
         <div className="pt-60"></div>
       </main>

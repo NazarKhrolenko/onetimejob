@@ -15,6 +15,7 @@ const ListMode = () => {
       <div className="flex flex-col gap-3">
         {sampleJobs.map((job) => (
           <Link
+            key={job.id}
             to={`/process/job/${job.id}`}
             className="w-full h-full flex flex-col items-center "
           >

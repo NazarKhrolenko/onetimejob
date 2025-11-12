@@ -32,7 +32,6 @@ const GetTimeAgo = (dateString) => {
 };
 
 const Map = ({ OnHover, jobs }) => {
-  console.log(jobs);
   const [highlightedIcon, setHighlightedIcon] = useState(null);
 
   const createCustomClusterIcon = (cluster) => {

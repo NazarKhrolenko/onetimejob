@@ -5,26 +5,45 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import "./App.css";
-import Layout from "./components/Layout";
+
 import Home from "./pages/Home";
-import ModePage from "./pages/Process/ModePage";
+import ModePage, { loader as jobLoader } from "./pages/Process/ModePage";
 import Profile from "./pages/Profile";
 import JobDetailPage from "./pages/JobDetailPage";
-import LogIn from "./pages/LogIn";
+import LogIn, {
+  loader as logInLoader,
+  action as logInAction,
+} from "./pages/LogIn";
 import { requireAuth } from "../utils";
+import { makeServer } from "./server";
+import Error from "./components/Error";
+
+if (process.env.NODE_ENV === "development") {
+  makeServer({ environment: "development" });
+}
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<Home />} />
-      <Route path="/process" element={<ModePage />} />
+      <Route
+        path="/process"
+        element={<ModePage />}
+        loader={jobLoader}
+        errorElement={<Error />}
+      />
+      <Route path="/process/job/:id" element={<JobDetailPage />} />
+      <Route
+        path="/login"
+        element={<LogIn />}
+        loader={logInLoader}
+        action={logInAction}
+      />
       <Route
         path="/process/profile"
         element={<Profile />}
-        loader={async () => requireAuth()}
+        loader={async () => await requireAuth()}
       />
-      <Route path="/process/job/:id" element={<JobDetailPage />} />
-      <Route path="/login" element={<LogIn />} />
     </>
   )
 );
