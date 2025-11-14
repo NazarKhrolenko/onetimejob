@@ -4,21 +4,26 @@ import {
   useLoaderData,
   Form,
   redirect,
+  useNavigate,
 } from "react-router-dom";
+
 import { loginUser } from "../api";
 
 export function loader({ request }) {
   return new URL(request.url).searchParams.get("message");
 }
-
 export async function action({ request }) {
   const formData = await request.formData();
   const email = formData.get("email");
   const password = formData.get("password");
+
   try {
-    const data = await loginUser({ email, password });
+    await loginUser({ email, password });
     localStorage.setItem("loggedin", true);
-    return redirect("/process/profile");
+    const response = redirect("/process/profile");
+    response.body = true;
+    console.log("fffffffffffffffffffff");
+    return response;
   } catch (err) {
     return err.message;
   }
@@ -26,6 +31,7 @@ export async function action({ request }) {
 
 const LogIn = () => {
   const message = useLoaderData();
+
   return (
     <div className="h-screen w-full flex justify-center flex-col items-center">
       <h1 className="text-3xl font-semibold pb-8">Sign in to your account</h1>
@@ -43,7 +49,9 @@ const LogIn = () => {
           name="password"
           placeholder="Password"
         />
-        <button className="bg-blue-400 py-3 rounded-xl mt-10"> Sing In</button>
+        <button className="bg-blue-400 py-3 rounded-xl mt-10 cursor-pointer">
+          Sing In
+        </button>
       </Form>
     </div>
   );

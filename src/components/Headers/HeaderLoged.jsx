@@ -4,6 +4,10 @@ import { MdAccountCircle } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaRegBell } from "react-icons/fa6";
 
+function LogOut() {
+  localStorage.removeItem("loggedin");
+}
+
 const HeaderLoged = () => {
   return (
     <header>
@@ -26,8 +30,14 @@ const HeaderLoged = () => {
             </Link>
           </div>
           <div>
-            <button className="whitespace-nowrap text-lg bg-blue-400 px-2 py-1 rounded-xl">
+            <button className="whitespace-nowrap text-lg bg-blue-400 px-2 py-1 rounded-xl mr-4">
               Add application
+            </button>
+            <button
+              onClick={LogOut}
+              className="whitespace-nowrap text-lg bg-gray-500 px-2 py-1 rounded-lg "
+            >
+              X
             </button>
           </div>
         </div>

@@ -21,7 +21,7 @@ import Error from "./components/Error";
 if (process.env.NODE_ENV === "development") {
   makeServer({ environment: "development" });
 }
-
+console.log(process.env.NODE_ENV);
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -32,7 +32,11 @@ const router = createBrowserRouter(
         loader={jobLoader}
         errorElement={<Error />}
       />
-      <Route path="/process/job/:id" element={<JobDetailPage />} />
+      <Route
+        path="/process/job/:id"
+        element={<JobDetailPage />}
+        loader={requireAuth}
+      />
       <Route
         path="/login"
         element={<LogIn />}
@@ -42,7 +46,7 @@ const router = createBrowserRouter(
       <Route
         path="/process/profile"
         element={<Profile />}
-        loader={async () => await requireAuth()}
+        loader={requireAuth}
       />
     </>
   )

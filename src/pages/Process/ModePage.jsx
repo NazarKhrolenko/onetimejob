@@ -7,7 +7,6 @@ import Map from "../../components/map";
 import CategoriesFilter from "../../components/CategoriesFilter";
 import ListMode from "../../components/ListMode";
 import { getJobs } from "../../api";
-import Error from "../../components/Error";
 
 export async function loader() {
   return await getJobs();
