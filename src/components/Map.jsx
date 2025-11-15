@@ -31,8 +31,24 @@ const GetTimeAgo = (dateString) => {
   if (diffDays > 1) return `${diffDays} days ago`;
 };
 
-const Map = ({ OnHover, jobs }) => {
+const Map = ({ jobs }) => {
   const [highlightedIcon, setHighlightedIcon] = useState(null);
+  const [sortOption, setSertOption] = useState("newest");
+
+  const sortedJobs = [...jobs].sort((a, b) => {
+    switch (sortOption) {
+      case "newest":
+        return new Date(b.created_at) - new Date(a.created_at);
+      case "price-low":
+        return a.price - b.price;
+      case "price-high":
+        return b.price - a.price;
+      case "rating":
+        return b.user_rating - a.user_rating;
+      default:
+        return 0;
+    }
+  });
 
   const createCustomClusterIcon = (cluster) => {
     return new divIcon({
@@ -128,17 +144,20 @@ const Map = ({ OnHover, jobs }) => {
             </div>
             <div className="flex items-center gap-2">
               <HiArrowsUpDown />
-              <select className="px-2 py-1 border border-gray-300 rounded-lg text-sm text-gray-300">
+              <select
+                value={sortOption}
+                onChange={(e) => setSertOption(e.target.value)}
+                className="px-2 py-1 border border-gray-300 rounded-lg text-sm text-gray-300"
+              >
                 <option value="newest">Newest</option>
                 <option value="price-low">From low price</option>
                 <option value="price-high">From high price</option>
                 <option value="rating">According to rating</option>
-                <option value="popular">Popular</option>
               </select>
             </div>
           </div>
           <div className="flex flex-col gap-3">
-            {jobs.map((job) => (
+            {sortedJobs.map((job) => (
               <Link to={`/process/job/${job.id}`} key={job.id}>
                 <div
                   className="border border-blue-300 p-4 flex flex-col justify-between gap-4 rounded-2xl hover:shadow-2xl hover:border-blue-500 transition-all cursor-pointer"

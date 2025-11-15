@@ -14,6 +14,7 @@ import LogIn, {
   loader as logInLoader,
   action as logInAction,
 } from "./pages/LogIn";
+import ApplyPage, { loader as applyLoader } from "./pages/ApplyPage";
 import { requireAuth } from "../utils";
 import { makeServer } from "./server";
 import Error from "./components/Error";
@@ -36,6 +37,12 @@ const router = createBrowserRouter(
         path="/process/job/:id"
         element={<JobDetailPage />}
         loader={requireAuth}
+      />
+
+      <Route
+        path="/process/job/:id/apply"
+        element={<ApplyPage />}
+        loader={applyLoader}
       />
       <Route
         path="/login"

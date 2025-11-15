@@ -36,7 +36,7 @@ const LogIn = () => {
     <div className="h-screen w-full flex justify-center flex-col items-center">
       <h1 className="text-3xl font-semibold pb-8">Sign in to your account</h1>
       {message && <h3 className="text-red-500">{message}</h3>}
-      <Form method="post" className="flex flex-col">
+      <Form replace method="post" className="flex flex-col">
         <input
           className="border px-2 py-2 rounded-t-xl w-[400px]"
           type="text"

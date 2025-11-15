@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import sampleJobs from "./Process/data/SampleJobs";
 import { MdDateRange } from "react-icons/md";
@@ -100,6 +100,11 @@ const JobDetailPage = () => {
           <button className="bg-blue-600 w-full text-2xl py-2 rounded-xl">
             Log in
           </button>
+          <Link to={`/process/job/${currentJob.id}/apply`}>
+            <button className="px-3 py-1.5 bg-blue-400 rounded-xl">
+              Apply
+            </button>
+          </Link>
         </div>
       </div>
       <div>
