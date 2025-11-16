@@ -6,10 +6,13 @@ import {
 } from "react-router-dom";
 import "./App.css";
 
+import RootLayout from "./components/layouts/RootLayout";
 import Home from "./pages/Home";
 import ModePage, { loader as jobLoader } from "./pages/Process/ModePage";
 import Profile from "./pages/Profile";
-import JobDetailPage from "./pages/JobDetailPage";
+import JobDetailPage, {
+  loader as jobDetailLoader,
+} from "./pages/JobDetailPage";
 import LogIn, {
   loader as logInLoader,
   action as logInAction,
@@ -25,37 +28,37 @@ if (process.env.NODE_ENV === "development") {
 console.log(process.env.NODE_ENV);
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <>
-      <Route path="/" element={<Home />} />
+    <Route path="/" element={<RootLayout />}>
+      <Route index element={<Home />} />
       <Route
-        path="/process"
+        path="process"
         element={<ModePage />}
         loader={jobLoader}
         errorElement={<Error />}
       />
       <Route
-        path="/process/job/:id"
+        path="process/job/:id"
         element={<JobDetailPage />}
-        loader={requireAuth}
+        loader={jobDetailLoader}
       />
 
       <Route
-        path="/process/job/:id/apply"
+        path="process/job/:id/apply"
         element={<ApplyPage />}
         loader={applyLoader}
       />
       <Route
-        path="/login"
+        path="login"
         element={<LogIn />}
         loader={logInLoader}
         action={logInAction}
       />
       <Route
-        path="/process/profile"
+        path="process/profile"
         element={<Profile />}
-        loader={requireAuth}
+        loader={async ({ request }) => await requireAuth(request)}
       />
-    </>
+    </Route>
   )
 );
 

@@ -16,11 +16,13 @@ export async function action({ request }) {
   const formData = await request.formData();
   const email = formData.get("email");
   const password = formData.get("password");
+  const pathname = new URL(request.url).searchParams.get("redirectTo");
+  console.log(pathname);
 
   try {
     await loginUser({ email, password });
     localStorage.setItem("loggedin", true);
-    const response = redirect("/process/profile");
+    const response = redirect(pathname || "/");
     response.body = true;
     console.log("fffffffffffffffffffff");
     return response;
@@ -34,7 +36,7 @@ const LogIn = () => {
 
   return (
     <div className="h-screen w-full flex justify-center flex-col items-center">
-      <h1 className="text-3xl font-semibold pb-8">Sign in to your account</h1>
+      <h1 className="text-3xl font-semibold pb-8">Log in to your account</h1>
       {message && <h3 className="text-red-500">{message}</h3>}
       <Form replace method="post" className="flex flex-col">
         <input
@@ -50,7 +52,7 @@ const LogIn = () => {
           placeholder="Password"
         />
         <button className="bg-blue-400 py-3 rounded-xl mt-10 cursor-pointer">
-          Sing In
+          Log in
         </button>
       </Form>
     </div>

@@ -22,10 +22,13 @@ const HeaderHomePage = () => {
         {/* */}
         <div>
           <div className="flex gap-5">
-            <button>Log in</button>
-            <button className="bg-blue-400 px-4 py-2 rounded-xl">
-              Sign Up
-            </button>
+            <Link
+              to="/process/profile"
+              className="bg-blue-400 px-4 py-2 rounded-xl"
+            >
+              {" "}
+              Log in
+            </Link>
           </div>
         </div>
       </div>
