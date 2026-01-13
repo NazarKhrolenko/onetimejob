@@ -10,6 +10,9 @@ import RootLayout from "./components/layouts/RootLayout";
 import Home from "./pages/Home";
 import ModePage, { loader as jobLoader } from "./pages/Process/ModePage";
 import Profile from "./pages/Profile";
+import CreateJobPage, {
+  action as CreateJobAction,
+} from "./pages/CreateJobPage";
 import JobDetailPage, {
   loader as jobDetailLoader,
 } from "./pages/JobDetailPage";
@@ -25,7 +28,7 @@ import Error from "./components/Error";
 if (process.env.NODE_ENV === "development") {
   makeServer({ environment: "development" });
 }
-console.log(process.env.NODE_ENV);
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
@@ -57,6 +60,12 @@ const router = createBrowserRouter(
         path="process/profile"
         element={<Profile />}
         loader={async ({ request }) => await requireAuth(request)}
+      />
+      <Route
+        path="createJob"
+        element={<CreateJobPage />}
+        loader={async ({ request }) => await requireAuth(request)}
+        action={CreateJobAction}
       />
     </Route>
   )

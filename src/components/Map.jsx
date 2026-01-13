@@ -212,9 +212,12 @@ const Map = ({ jobs }) => {
                       <span>{job.applicants} applied</span>
                     </div>
                     <div>
-                      <button className="px-3 py-1.5 bg-blue-400 rounded-xl">
+                      <Link
+                        to={`/process/job/${job.id}/apply`}
+                        className="px-3 py-1.5 bg-blue-400 rounded-xl"
+                      >
                         Apply
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </div>
