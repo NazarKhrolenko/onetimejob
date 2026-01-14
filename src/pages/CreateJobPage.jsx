@@ -3,48 +3,39 @@ import { BsArrowLeft } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { redirect } from "react-router-dom";
 import categories from "./Process/data/Categories";
-import sampleJobs from "./Process/data/SampleJobs";
+
+import { supabase } from "../supabase/supabaseClient";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 
 import { Form } from "react-router-dom";
 
 export async function action({ request }) {
   const formData = await request.formData();
+
   const title = formData.get("title");
   const description = formData.get("description");
   const category = formData.get("category");
   const salary = formData.get("salary");
-  const date = formData.get("date");
-  const lat = formData.get("lat");
-  const lng = formData.get("lng");
+  const lat = formData.get("lat") ? parseFloat(formData.get("lat")) : null;
+  const lng = formData.get("lng") ? parseFloat(formData.get("lng")) : null;
+  const deadline = formData.get("date"); // правильно: deadline
 
-  try {
-    sampleJobs.push({
-      id: crypto.randomUUID(),
-      title,
-      description,
-      price: salary,
-      category,
-      lat,
-      lng,
-      date,
-      status: "open",
-      user_rating: 4.9,
-      applicants: 0,
-      created_at: new Date().toISOString(),
-    });
-    console.log(sampleJobs[sampleJobs.length - 1]);
+  const { error } = await supabase.from("jobs").insert({
+    title,
+    description,
+    category,
+    salary,
+    lat,
+    lng,
+    deadline,
+    created_at: new Date().toISOString(),
+  });
 
-    const response = redirect("/process");
-    response.body = true;
-    return response;
-  } catch (error) {
-    if (error instanceof Response) {
-      throw error;
-    }
-    // Інакше повертаємо помилку
-    return { error: error.message };
+  if (error) {
+    throw new Error(error.message);
   }
+
+  return redirect("/process");
 }
 
 const CreateJobPage = () => {
@@ -127,10 +118,7 @@ const CreateJobPage = () => {
               </div>
               <input type="hidden" name="lat" value={position?.[0] || ""} />
               <input type="hidden" name="lng" value={position?.[1] || ""} />
-              <button
-                type="submit"
-                className="bg-blue-400 py-3 rounded-xl mt-10 cursor-pointer"
-              >
+              <button className="bg-blue-400 py-3 rounded-xl mt-10 cursor-pointer">
                 Submit
               </button>
             </Form>

@@ -8,24 +8,33 @@ import { MdAccountCircle } from "react-icons/md";
 import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
 import CustomIcon from "./Process/data/CustomIcon";
-import { getJobs } from "../api";
+import { supabase } from "../supabase/supabaseClient";
 
-export function loader({ params }) {
-  return getJobs(params.id);
+export async function loader({ params }) {
+  const { data, error } = await supabase
+    .from("jobs")
+    .select("*")
+    .eq("id", params.id);
+
+  if (error) throw new Error(error.message);
+  return data; // завжди масив
 }
 
 const JobDetailPage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const job = useLoaderData()[0];
+  const jobData = useLoaderData();
+  const job = jobData[0]; // беремо перший елемент масиву
 
   useEffect(() => {
     const isLogged = localStorage.getItem("loggedin");
-    setIsAuthenticated(isLogged);
+    setIsAuthenticated(!!isLogged);
   }, []);
+
+  if (!job) return <div className="text-white p-6">Job not found</div>;
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6 flex flex-col items-center">
-      <div className="w-full   p-6 rounded-2xl shadow-xl flex flex-col gap-6">
+      <div className="w-full p-6 rounded-2xl shadow-xl flex flex-col gap-6">
         <div className="flex justify-between items-start">
           <div>
             <h2 className="text-3xl font-bold">{job.title}</h2>
@@ -33,14 +42,14 @@ const JobDetailPage = () => {
 
             <div className="flex items-center gap-2 text-gray-300 mt-1">
               <MdDateRange />
-              {new Date(job.date).toLocaleDateString("en-GB", {
+              {new Date(job.deadline).toLocaleDateString("en-GB", {
                 day: "numeric",
                 month: "short",
               })}
             </div>
           </div>
 
-          <p className="text-3xl font-bold text-blue-400">{job.price}$</p>
+          <p className="text-3xl font-bold text-blue-400">{job.salary}$</p>
         </div>
 
         <div>
@@ -80,7 +89,7 @@ const JobDetailPage = () => {
               position={[job.lat, job.lng]}
               icon={L.divIcon({
                 html: ReactDOMServer.renderToString(
-                  <CustomIcon categoryMark={job.category} price={job.price} />
+                  <CustomIcon categoryMark={job.category} price={job.salary} />
                 ),
                 className: "",
                 iconSize: [60, 40],
@@ -100,12 +109,11 @@ const JobDetailPage = () => {
 
             <div>
               <p className="font-semibold text-lg">Name Surname</p>
-
               <div className="flex items-center gap-1 text-gray-300">
                 <FaStar color="gold" />
-                <span>{job.user_rating}</span>
+                <span>{job.user_rating || 5}</span>
                 <span className="text-gray-500">
-                  ({job.applicants} applied)
+                  ({job.applicants || 0} applied)
                 </span>
               </div>
             </div>

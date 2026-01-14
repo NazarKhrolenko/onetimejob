@@ -21,13 +21,13 @@ import LogIn, {
   action as logInAction,
 } from "./pages/LogIn";
 import ApplyPage, { loader as applyLoader } from "./pages/ApplyPage";
-import { requireAuth } from "../utils";
-import { makeServer } from "./server";
+// import { requireAuth } from "../utils";
+
 import Error from "./components/Error";
 
-if (process.env.NODE_ENV === "development") {
-  makeServer({ environment: "development" });
-}
+// if (process.env.NODE_ENV === "development") {
+//   makeServer({ environment: "development" });
+// }
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -64,7 +64,6 @@ const router = createBrowserRouter(
       <Route
         path="createJob"
         element={<CreateJobPage />}
-        loader={async ({ request }) => await requireAuth(request)}
         action={CreateJobAction}
       />
     </Route>

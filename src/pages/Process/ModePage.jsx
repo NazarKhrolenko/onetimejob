@@ -6,26 +6,33 @@ import HeaderLoged from "../../components/Headers/HeaderLoged";
 import Map from "../../components/map";
 import CategoriesFilter from "../../components/CategoriesFilter";
 import ListMode from "../../components/ListMode";
-import { getJobs } from "../../api";
+import { supabase } from "../../supabase/supabaseClient";
 
+// Loader для завантаження всіх робіт з Supabase
 export async function loader() {
-  return await getJobs();
+  const { data, error } = await supabase.from("jobs").select("*");
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
 }
 
 const ModePage = () => {
   const [viewMode, setViewMode] = useState("map");
   const [filteredJobs, setFilteredJobs] = useState([]);
   const jobs = useLoaderData();
-  console.log(jobs);
 
   const [filters, setFilters] = useState({
     category: "",
     minPrice: 0,
     maxPrice: 10000,
-    radius: 20,
-    date: "",
+    radius: 20, // поки не використовується
+    date: "", // поки не використовується
   });
 
+  // Фільтрування робіт при зміні jobs або filters
   useEffect(() => {
     applyFilters();
   }, [jobs, filters]);
@@ -39,12 +46,25 @@ const ModePage = () => {
 
   const applyFilters = () => {
     let results = Array.isArray(jobs) ? [...jobs] : [];
+
+    // Фільтр за категорією
     if (filters.category) {
       results = results.filter((job) => job.category === filters.category);
     }
-    results = results.filter(
-      (job) => job.price > filters.minPrice && job.price < filters.maxPrice
-    );
+
+    // Фільтр за зарплатою
+    results = results.filter((job) => {
+      const salaryNum = parseFloat(job.salary);
+      return salaryNum >= filters.minPrice && salaryNum <= filters.maxPrice;
+    });
+
+    // Підставляємо дефолтні значення для відсутніх колонок
+    results = results.map((job) => ({
+      ...job,
+      applicants: job.applicants || 0,
+      user_rating: job.user_rating || 5,
+    }));
+
     setFilteredJobs(results);
   };
 
@@ -55,6 +75,7 @@ const ModePage = () => {
         <CategoriesFilter handleSelectCategory={handleCategorySelect} />
         <Filters filters={filters} handleSetFilters={setFilters} />
 
+        {/* Перемикач між карткою та списком */}
         <div className="flex gap-2 justify-center pb-2 pt-2">
           <button
             onClick={() => setViewMode("map")}
@@ -77,6 +98,7 @@ const ModePage = () => {
           </button>
         </div>
 
+        {/* Відображення картки або списку */}
         {viewMode === "map" ? (
           <Map jobs={filteredJobs} />
         ) : (

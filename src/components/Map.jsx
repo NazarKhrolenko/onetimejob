@@ -40,9 +40,9 @@ const Map = ({ jobs }) => {
       case "newest":
         return new Date(b.created_at) - new Date(a.created_at);
       case "price-low":
-        return a.price - b.price;
+        return a.salary - b.salary;
       case "price-high":
-        return b.price - a.price;
+        return b.salary - a.salary;
       case "rating":
         return b.user_rating - a.user_rating;
       default:
@@ -69,13 +69,6 @@ const Map = ({ jobs }) => {
     });
   };
 
-  const getCategoryColor = (job) => {
-    const categoryColor = categories.find(
-      (category) => category.name === job.category
-    );
-    return categoryColor?.bgColor;
-  };
-
   return (
     <div className="w-full h-full flex flex-1">
       <MapContainer
@@ -98,7 +91,7 @@ const Map = ({ jobs }) => {
               position={[job.lat, job.lng]}
               icon={L.divIcon({
                 html: ReactDOMServer.renderToString(
-                  <CustomIcon categoryMark={job.category} price={job.price} />
+                  <CustomIcon categoryMark={job.category} price={job.salary} />
                 ),
                 className: "",
                 iconSize: [60, 40], // можна підлаштувати
@@ -116,7 +109,9 @@ const Map = ({ jobs }) => {
                   <header>
                     <h3 className="text-center text-xl pb-2">{job.title}</h3>
                     <div className="flex gap-1">
-                      <FaStar /> {job.user_rating}{" "}
+                      <div>
+                        <FaStar /> {job.user_rating || 5}
+                      </div>
                       <span className="text-xs">(owner's rating)</span>
                     </div>
                   </header>
@@ -169,7 +164,7 @@ const Map = ({ jobs }) => {
                       <h3>{job.title}</h3>
                       <div className="">
                         <div>
-                          {job.price}
+                          {job.salary}
                           <span>$</span>
                         </div>
                         <div className="flex items-center">
@@ -179,14 +174,7 @@ const Map = ({ jobs }) => {
                     </div>
                     <div className="flex flex-col gap-2">
                       <div className="flex gap-2">
-                        <span
-                          style={{
-                            backgroundColor: getCategoryColor(job.category),
-                          }}
-                          className={` px-2 py-1 rounded-xl`}
-                        >
-                          {job.category}
-                        </span>
+                        <span>{job.category}</span>
                         {job.created_at && (
                           <span className="flex items-center  gap-1">
                             <CiClock2 />
@@ -196,7 +184,7 @@ const Map = ({ jobs }) => {
                       </div>
                       <div className="flex items-center gap-1">
                         <MdDateRange />
-                        {new Date(job.date).toLocaleDateString("en-GB", {
+                        {new Date(job.deadline).toLocaleDateString("en-GB", {
                           day: "numeric",
                           month: "short",
                         })}
@@ -209,7 +197,7 @@ const Map = ({ jobs }) => {
                   <div className="flex justify-between">
                     <div className="flex gap-1 items-center">
                       <GoPeople />
-                      <span>{job.applicants} applied</span>
+                      <span>{job.applicants || 0} applied</span>
                     </div>
                     <div>
                       <Link
