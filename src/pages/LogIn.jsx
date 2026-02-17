@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "../supabase/AuthContext";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 const LogIn = () => {
   const navigate = useNavigate();
@@ -62,6 +62,13 @@ const LogIn = () => {
         >
           {isPending ? "Logging in..." : "Log in"}
         </button>
+
+        <p className="text-center mt-4">
+          Don't have an account?{" "}
+          <Link to="/signup" className="text-blue-500 underline">
+            Sign up
+          </Link>
+        </p>
       </form>
     </div>
   );

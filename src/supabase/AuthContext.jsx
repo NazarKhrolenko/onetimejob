@@ -10,7 +10,7 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     async function getInitialSession() {
       try {
-        const { data, error } = supabase.auth.getSession();
+        const { data, error } = await supabase.auth.getSession();
         if (error) {
           throw error;
         }
@@ -28,7 +28,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const signInUser = async (email, password) => {
     try {
-      const { data, error } = supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email: email.toLowerCase(),
         password,
       });
@@ -85,7 +85,7 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ session, signInUser, signOut }}>
+    <AuthContext.Provider value={{ session, signInUser, signOut, signUpUser }}>
       {children}
     </AuthContext.Provider>
   );
