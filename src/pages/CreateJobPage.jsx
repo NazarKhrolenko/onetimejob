@@ -1,6 +1,6 @@
 import React from "react";
 import { BsArrowLeft } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { redirect } from "react-router-dom";
 import categories from "./Process/data/Categories";
 
@@ -8,6 +8,7 @@ import { supabase } from "../supabase/supabaseClient";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 
 import { Form } from "react-router-dom";
+import { useAuth } from "../supabase/AuthContext";
 
 export async function action({ request }) {
   const formData = await request.formData();
@@ -40,7 +41,12 @@ export async function action({ request }) {
 
 const CreateJobPage = () => {
   const navigate = useNavigate();
+  const { session } = useAuth();
   const [position, setPosition] = React.useState(null);
+
+  if (session === null) {
+    return <Navigate to="/login?redirectTo=/createJob" replace />;
+  }
   function LocationMarker({ position, setPosition }) {
     useMapEvents({
       click(e) {

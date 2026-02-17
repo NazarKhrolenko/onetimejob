@@ -17,6 +17,7 @@ import JobDetailPage, {
   loader as jobDetailLoader,
 } from "./pages/JobDetailPage";
 import LogIn from "./pages/LogIn";
+import SignUp from "./pages/SignUp";
 import ApplyPage from "./pages/ApplyPage";
 // import { requireAuth } from "../utils";
 
@@ -48,6 +49,7 @@ export const router = createBrowserRouter(
         loader={jobDetailLoader}
       />
       <Route path="login" element={<LogIn />} />
+      <Route path="signup" element={<SignUp />} />
       <Route path="process/profile" element={<Profile />} />
       <Route
         path="createJob"

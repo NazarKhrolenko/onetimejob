@@ -1,11 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import HeaderHomePage from "../components/Headers/HeaderHomePage";
 
 const Home = () => {
   return (
     <div className="min-h-screen bg-black text-white">
-      <HeaderHomePage />
 
       <div className="w-full bg-gradient-to-r from-[#1a5a73] to-[#4fb6ff] py-20 mt-8 shadow-xl">
         <div className="max-w-4xl mx-auto px-6 text-center flex flex-col items-center">
