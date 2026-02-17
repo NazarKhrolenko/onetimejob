@@ -1,32 +1,32 @@
-import { Link, useLocation } from "react-router-dom";
+import React from "react";
+import { FaRegHeart } from "react-icons/fa6";
+import { Link, NavLink } from "react-router-dom";
+
+import { MdAccountCircle } from "react-icons/md";
 
 const HeaderProcess = () => {
-  const location = useLocation();
-  const redirectTo = `${location.pathname}${location.search}`;
-
   return (
-    <header className="bg-black/10 pt-4">
+    <header className=" bg-black/10 pt-4">
       <div className="mx-auto flex justify-between container items-center">
         <div>
           <Link className="text-3xl" to="/">
             OneTimeGob
           </Link>
         </div>
+        {/* <div className="flex">
+            <Link to="/liked">
+              <FaRegHeart />
+            </Link>
 
-        <div className="flex gap-5 text-xl items-center">
-          <Link to="/process">Browse jobs</Link>
-          <Link
-            to={`/login?redirectTo=${encodeURIComponent(redirectTo)}`}
-            className="px-4 py-2 rounded-xl bg-gray-200 text-black"
-          >
-            Log in
-          </Link>
-          <Link
-            to={`/signup?redirectTo=${encodeURIComponent(redirectTo)}`}
-            className="bg-blue-400 px-4 py-2 rounded-xl"
-          >
-            Sign up
-          </Link>
+            <Link to="/account">
+              <MdAccountCircle />
+            </Link>
+          </div> */}
+        <div>
+          <div className="flex gap-5 text-2xl items-center">
+            <Link to="/login">Log in</Link>
+            <Link className="bg-blue-400 px-4 py-2 rounded-xl">Sign Up</Link>
+          </div>
         </div>
       </div>
     </header>

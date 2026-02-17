@@ -1,4 +1,3 @@
-import { useMemo, useState } from "react";
 import { useState } from "react";
 import { useAuth } from "../supabase/AuthContext";
 import { useNavigate, useLocation, Link } from "react-router-dom";
@@ -9,11 +8,6 @@ const LogIn = () => {
   const { signInUser } = useAuth();
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
-
-  const redirectTo = useMemo(() => {
-    const urlParams = new URLSearchParams(location.search);
-    return urlParams.get("redirectTo") || location.state?.from || "/";
-  }, [location.search, location.state]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +26,12 @@ const LogIn = () => {
       return;
     }
 
-    navigate(redirectTo, { replace: true });
+    // Get the redirectTo query parameter, default to home page if not found
+    const urlParams = new URLSearchParams(location.search);
+    const redirectTo = urlParams.get("redirectTo") || "/";
+
+    // Navigate to the target URL
+    navigate(redirectTo);
   };
 
   return (
@@ -66,10 +65,6 @@ const LogIn = () => {
 
         <p className="text-center mt-4">
           Don't have an account?{" "}
-          <Link
-            to={`/signup?redirectTo=${encodeURIComponent(redirectTo)}`}
-            className="text-blue-500 underline"
-          >
           <Link to="/signup" className="text-blue-500 underline">
             Sign up
           </Link>

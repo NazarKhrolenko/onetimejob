@@ -1,10 +1,3 @@
-import { useMemo, useState } from "react";
-import { useAuth } from "../supabase/AuthContext";
-import { Link, useLocation } from "react-router-dom";
-
-const SignUp = () => {
-  const { signUpUser } = useAuth();
-  const location = useLocation();
 import { useState } from "react";
 import { useAuth } from "../supabase/AuthContext";
 import { Link } from "react-router-dom";
@@ -14,11 +7,6 @@ const SignUp = () => {
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [isPending, setIsPending] = useState(false);
-
-  const redirectTo = useMemo(() => {
-    const urlParams = new URLSearchParams(location.search);
-    return urlParams.get("redirectTo") || "/";
-  }, [location.search]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -94,10 +82,6 @@ const SignUp = () => {
 
         <p className="text-center mt-4">
           Already have an account?{" "}
-          <Link
-            to={`/login?redirectTo=${encodeURIComponent(redirectTo)}`}
-            className="text-blue-500 underline"
-          >
           <Link to="/login" className="text-blue-500 underline">
             Log in
           </Link>
