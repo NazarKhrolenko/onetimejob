@@ -7,6 +7,8 @@ import Map from "../../components/map";
 import CategoriesFilter from "../../components/CategoriesFilter";
 import ListMode from "../../components/ListMode";
 import { supabase } from "../../supabase/supabaseClient";
+import HeaderProcess from "../../components/Headers/HeaderProcess";
+import { useAuth } from "../../supabase/AuthContext";
 
 // Loader для завантаження всіх робіт з Supabase
 export async function loader() {
@@ -20,6 +22,7 @@ export async function loader() {
 }
 
 const ModePage = () => {
+  const { session } = useAuth();
   const [viewMode, setViewMode] = useState("map");
   const [filteredJobs, setFilteredJobs] = useState([]);
   const jobs = useLoaderData();
@@ -70,7 +73,8 @@ const ModePage = () => {
 
   return (
     <div className="bg-black h-full text-white">
-      <HeaderLoged />
+      {session === null ? <HeaderProcess /> : <HeaderLoged />}
+
       <main className="mx-6">
         <CategoriesFilter handleSelectCategory={handleCategorySelect} />
         <Filters filters={filters} handleSetFilters={setFilters} />

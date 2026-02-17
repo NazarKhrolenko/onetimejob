@@ -1,14 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { MdAccountCircle } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa6";
 import { FaRegBell } from "react-icons/fa6";
-
-function LogOut() {
-  localStorage.removeItem("loggedin");
-}
+import { useAuth } from "../../supabase/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const HeaderLoged = () => {
+  const { signOut, session } = useAuth();
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+
+  const handleSignOut = async (e) => {
+    e.preventDefault();
+
+    const { success, error } = await signOut();
+    if (success) {
+      navigate("/process");
+    } else {
+      setError(error.message);
+    }
+  };
   return (
     <header>
       <div className="pt-2 flex justify-between items-center container mx-auto">
@@ -37,7 +49,7 @@ const HeaderLoged = () => {
               Add application
             </Link>
             <button
-              onClick={LogOut}
+              onClick={handleSignOut}
               className="whitespace-nowrap text-lg bg-gray-500 px-2 py-1 rounded-lg hover:bg-gray-600 cursor-pointer"
             >
               X

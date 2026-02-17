@@ -9,6 +9,7 @@ import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
 import CustomIcon from "./Process/data/CustomIcon";
 import { supabase } from "../supabase/supabaseClient";
+import { useAuth } from "../supabase/AuthContext";
 
 export async function loader({ params }) {
   const { data, error } = await supabase
@@ -23,7 +24,9 @@ export async function loader({ params }) {
 const JobDetailPage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const jobData = useLoaderData();
-  const job = jobData[0]; // беремо перший елемент масиву
+  const job = jobData[0];
+  const { session } = useAuth();
+  console.log(session);
 
   useEffect(() => {
     const isLogged = localStorage.getItem("loggedin");
@@ -123,7 +126,7 @@ const JobDetailPage = () => {
         <div>
           <p className="font-semibold text-lg text-gray-200 mb-3">Apply</p>
 
-          {!isAuthenticated ? (
+          {session === null ? (
             <>
               <p className="text-center text-gray-400 pb-2">
                 Log in to be able to apply

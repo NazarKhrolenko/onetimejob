@@ -24,7 +24,7 @@ const HeaderProcess = () => {
           </div> */}
         <div>
           <div className="flex gap-5 text-2xl items-center">
-            <Link>Log in</Link>
+            <Link to="/login">Log in</Link>
             <Link className="bg-blue-400 px-4 py-2 rounded-xl">Sign Up</Link>
           </div>
         </div>
