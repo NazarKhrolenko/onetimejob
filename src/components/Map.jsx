@@ -1,16 +1,16 @@
 import { MapContainer, TileLayer, Marker, Popup, Tooltip } from "react-leaflet";
-import { Icon, divIcon, point } from "leaflet";
+import { divIcon } from "leaflet";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "leaflet/dist/leaflet.css";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { HiArrowsUpDown } from "react-icons/hi2";
 import { FaStar } from "react-icons/fa";
 import { CiClock2 } from "react-icons/ci";
-import categories from "../pages/Process/data/Categories";
 import { MdDateRange } from "react-icons/md";
 import { GoPeople } from "react-icons/go";
 import { useState } from "react";
+import { useAuth } from "../supabase/AuthContext";
 import CustomIcon from "../pages/Process/data/CustomIcon";
 import ReactDOMServer from "react-dom/server";
 import L from "leaflet";
@@ -32,6 +32,8 @@ const GetTimeAgo = (dateString) => {
 };
 
 const Map = ({ jobs }) => {
+  const { session } = useAuth();
+  const location = useLocation();
   const [highlightedIcon, setHighlightedIcon] = useState(null);
   const [sortOption, setSertOption] = useState("newest");
 
@@ -201,7 +203,11 @@ const Map = ({ jobs }) => {
                     </div>
                     <div>
                       <Link
-                        to={`/process/job/${job.id}/apply`}
+                        to={
+                          session
+                            ? `/process/job/${job.id}/apply`
+                            : `/login?redirectTo=${encodeURIComponent(`${location.pathname}${location.search}`)}`
+                        }
                         className="px-3 py-1.5 bg-blue-400 rounded-xl"
                       >
                         Apply
