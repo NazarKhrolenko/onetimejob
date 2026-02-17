@@ -19,7 +19,6 @@ export const AuthContextProvider = ({ children }) => {
         console.error("Error getting session:", error.message);
       }
     }
-    getInitialSession();
 
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
