@@ -1,8 +1,6 @@
 import React from "react";
-import { FaRegHeart } from "react-icons/fa6";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import { MdAccountCircle } from "react-icons/md";
 
 const HeaderHomePage = () => {
   return (
@@ -23,7 +21,7 @@ const HeaderHomePage = () => {
         <div>
           <div className="flex gap-5">
             <Link
-              to="/process/profile"
+              to="/login"
               className="bg-blue-400 px-4 py-2 rounded-xl"
             >
               {" "}

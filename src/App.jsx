@@ -16,11 +16,9 @@ import CreateJobPage, {
 import JobDetailPage, {
   loader as jobDetailLoader,
 } from "./pages/JobDetailPage";
-import LogIn, {
-  loader as logInLoader,
-  action as logInAction,
-} from "./pages/LogIn";
-import ApplyPage, { loader as applyLoader } from "./pages/ApplyPage";
+import LogIn from "./pages/LogIn";
+import SignUp from "./pages/SignUp";
+import ApplyPage from "./pages/ApplyPage";
 // import { requireAuth } from "../utils";
 
 import Error from "./components/Error";
@@ -29,7 +27,7 @@ import Error from "./components/Error";
 //   makeServer({ environment: "development" });
 // }
 
-const router = createBrowserRouter(
+export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
       <Route index element={<Home />} />
@@ -48,23 +46,16 @@ const router = createBrowserRouter(
       <Route
         path="process/job/:id/apply"
         element={<ApplyPage />}
-        loader={applyLoader}
+        loader={jobDetailLoader}
       />
-      <Route
-        path="login"
-        element={<LogIn />}
-        loader={logInLoader}
-        action={logInAction}
-      />
-      <Route
-        path="process/profile"
-        element={<Profile />}
-        loader={async ({ request }) => await requireAuth(request)}
-      />
+      <Route path="login" element={<LogIn />} />
+      <Route path="signup" element={<SignUp />} />
+      <Route path="process/profile" element={<Profile />} />
       <Route
         path="createJob"
         element={<CreateJobPage />}
         action={CreateJobAction}
+        loader={jobDetailLoader}
       />
     </Route>
   )
