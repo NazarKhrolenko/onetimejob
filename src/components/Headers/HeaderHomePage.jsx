@@ -1,4 +1,6 @@
-import { Link, useLocation } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
+
 
 const HeaderHomePage = () => {
   const location = useLocation();
@@ -32,6 +34,17 @@ const HeaderHomePage = () => {
           >
             Sign up
           </Link>
+        {/* */}
+        <div>
+          <div className="flex gap-5">
+            <Link
+              to="/login"
+              className="bg-blue-400 px-4 py-2 rounded-xl"
+            >
+              {" "}
+              Log in
+            </Link>
+          </div>
         </div>
       </div>
     </header>

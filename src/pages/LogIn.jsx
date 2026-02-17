@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../supabase/AuthContext";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 
@@ -69,6 +70,7 @@ const LogIn = () => {
             to={`/signup?redirectTo=${encodeURIComponent(redirectTo)}`}
             className="text-blue-500 underline"
           >
+          <Link to="/signup" className="text-blue-500 underline">
             Sign up
           </Link>
         </p>

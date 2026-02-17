@@ -5,6 +5,12 @@ import { Link, useLocation } from "react-router-dom";
 const SignUp = () => {
   const { signUpUser } = useAuth();
   const location = useLocation();
+import { useState } from "react";
+import { useAuth } from "../supabase/AuthContext";
+import { Link } from "react-router-dom";
+
+const SignUp = () => {
+  const { signUpUser } = useAuth();
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [isPending, setIsPending] = useState(false);
@@ -92,6 +98,7 @@ const SignUp = () => {
             to={`/login?redirectTo=${encodeURIComponent(redirectTo)}`}
             className="text-blue-500 underline"
           >
+          <Link to="/login" className="text-blue-500 underline">
             Log in
           </Link>
         </p>
